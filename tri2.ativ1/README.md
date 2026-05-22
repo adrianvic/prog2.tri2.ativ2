@@ -1,15 +1,8 @@
 # tri2.ativ1
 
-To install dependencies:
+## Funcionamento
+Esse projeto feito em TypeScript/Bun usa a biblioteca `sqlite` do Bun para armazenar uma lista de afazeres.
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.13. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## Rodando
+1. Instale as dependências com o comando `bun i`.
+2. Rode o arquivo `core.ts` com o comando `bun ./src/core.ts`.
