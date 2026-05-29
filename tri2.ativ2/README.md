@@ -5,4 +5,30 @@ Esse projeto feito em TypeScript/Bun usa a biblioteca `sqlite` do Bun para armaz
 
 ## Rodando
 1. Instale as dependências com o comando `bun i`.
-2. Rode o arquivo `core.ts` com o comando `bun ./src/core.ts`.
+2. Implemente o projeto em seu código TypeScript (exemplos abaixo).
+
+## Exemplos
+### Criar item
+```typescript
+const item = Item.insert({ title: "Exemplo" })
+console.log(item.id)
+```
+
+### Listar item
+```typescript
+const items = Item.all()
+items.forEach(i => () {
+    console.log(i.title);
+})
+```
+
+### Atualizar
+```typescript
+item.title = "Título atualizado :)"
+item.update()
+```
+
+### Deletar
+```typescript
+item.delete()
+```

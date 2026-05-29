@@ -28,11 +28,17 @@ db.run(`
             selectAll: db.query('SELECT * FROM items'),
             selectOne: db.query('SELECT * FROM items WHERE id = $id'), 
             insert: db.query('INSERT INTO items (title) VALUES ($title)'),
-            update: db.prepare("UPDATE items SET title=? WHERE title=?")
+            update: db.query("UPDATE items SET title=$title WHERE id=$id"),
+            delete: db.query("DELETE FROM items WHERE id = $id")
+        }
+
+        private setId(id: number) {
+          this.id = id;
         }
 
         set title(title: string) {
             this.props.title = title;
+            this.changed = true;
         }
 
         get title() {
@@ -49,12 +55,27 @@ db.run(`
         
         public static insert(props: ItemProps){
             const changes = this.query.insert.run({ title: props.title }) as Changes
-            return this.get(changes.lastInsertRowid as number)
+            const item = new Item(props)
+            item['setId'](changes.lastInsertRowid as number)
+            return item
+        }
+
+        public static delete(id: number) {
+          return this.query.delete.run({ id })
         }
         
         store() {
-            if (!this.changed) 
-                return
+          if (!this.changed) return;
+          Item.query.update.run({ title: this.props.title, id: this.id }) 
+          this.changed = false
+        }
+
+        update() {
+          this.store();
+        }
+
+        delete() {
+          Item.delete(this.id!)
         }
         
         toJSON() {
